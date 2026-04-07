@@ -174,3 +174,62 @@ flowchart TD
     
     ReposLevel --> GitWorkflow
 ```
+```mermaid
+flowchart TD
+    classDef board fill:#fff9c4,stroke:#fbc02d,stroke-width:3px,color:#000,font-weight:bold;
+    classDef backlog fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px,color:#000;
+    classDef columns fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#000;
+    classDef auto fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#000,stroke-dasharray: 5 5;
+    classDef action fill:#fff,stroke:#333,stroke-width:1px,color:#000;
+    classDef highlight fill:#ffcc80,stroke:#e65100,stroke-width:2px,color:#000;
+
+    subgraph GitHubProject [لوحة المهام المركزية - GitHub Project V2]
+        direction TB
+        
+        BoardTitle[📋 لوحة إدارة مشروع نظام المدرسة\n 'Scrum / Kanban Board']:::board
+        
+        subgraph BacklogPhase [1. مرحلة التخطيط والتحضير - Backlog & Planning]
+            direction LR
+            PB[📦 Product Backlog\n كل متطلبات المشروع حسب ملف الـ PDF\n 'قصص المستخدمين']:::backlog
+            Grooming[🔍 تنقيح المهام - Backlog Grooming\n مدير المشروع يضيف التفاصيل:\n - التصنيف (Frontend/Backend)\n - الأولوية (High/Medium/Low)\n - حجم المهمة (Story Points)]:::action
+            SprintPlan[🎯 تخطيط السباق - Sprint Planning\n سحب المهام من الـ Backlog إلى الـ Sprint الحالي]:::highlight
+            
+            PB --> Grooming --> SprintPlan
+        end
+        
+        BoardTitle --> BacklogPhase
+
+        subgraph KanbanColumns [2. أعمدة اللوحة وحالة المهام - Board Columns]
+            direction LR
+            Todo[📝 Todo\n مهام السباق الجاهزة للعمل]:::columns
+            InProgress[⏳ In Progress\n المهام قيد التنفيذ حالياً]:::columns
+            InReview[👀 In Review\n مهام انتهت برمجياً وتنتظر المراجعة]:::columns
+            Done[✅ Done\n مهام مكتملة ومدمجة بنجاح]:::columns
+            
+            Todo --> InProgress --> InReview --> Done
+        end
+        
+        SprintPlan -->|توزيع المهام على| Todo
+
+        subgraph AutomationRules [3. الأتمتة السحرية - GitHub Actions & Automations]
+            direction TB
+            Auto1[⚡ أتمتة 1:\n عندما يقوم المطور بإنشاء فرع (Branch)\n أو تعيين المهمة لنفسه (Assign)\n ⬅️ تنتقل المهمة آلياً إلى 'In Progress']:::auto
+            Auto2[⚡ أتمتة 2:\n عندما يفتح المطور طلب دمج (Pull Request)\n ويربطه برقم المهمة\n ⬅️ تنتقل المهمة آلياً إلى 'In Review']:::auto
+            Auto3[⚡ أتمتة 3:\n عندما يتم قبول طلب الدمج (Merge)\n من قبل المراجع أو الـ DevOps\n ⬅️ تنتقل المهمة آلياً إلى 'Done']:::auto
+        end
+
+        InProgress -.->|تحكمها| Auto1
+        InReview -.->|تحكمها| Auto2
+        Done -.->|تحكمها| Auto3
+        
+        subgraph DeveloperInteraction [4. تفاعل المطور مع اللوحة]
+            direction TB
+            DevAction1[👤 المطور يسحب مهمة من Todo\n ويعينها لنفسه Assignee]:::action
+            DevAction2[🔗 المطور يكتب في وصف الـ PR:\n 'Resolves #12'\n لربط الكود بالمهمة رقم 12]:::action
+            
+            DevAction1 --> DevAction2
+        end
+        
+        DeveloperInteraction -.-> KanbanColumns
+    end
+```
