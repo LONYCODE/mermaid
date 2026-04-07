@@ -1,40 +1,55 @@
 ```mermaid
-flowchart TD
-    classDef backend fill:#f9f871,stroke:#333,stroke-width:2px,color:#000;
-    classDef frontend fill:#ffc75f,stroke:#333,stroke-width:2px,color:#000;
-    classDef mobile fill:#ff9671,stroke:#333,stroke-width:2px,color:#000;
-    classDef devops fill:#ff6f91,stroke:#333,stroke-width:2px,color:#000;
-    classDef main fill:#845ec2,stroke:#333,stroke-width:2px,color:#fff;
+flowchart TB
+    %% تعريف الألوان والاستايلات
+    classDef planning fill:#f9f871,stroke:#333,stroke-width:2px,color:#333
+    classDef backend fill:#ffc75f,stroke:#333,stroke-width:2px,color:#333
+    classDef frontend fill:#ff9671,stroke:#333,stroke-width:2px,color:#333
+    classDef devops fill:#00c9a7,stroke:#333,stroke-width:2px,color:#fff
+    classDef review fill:#845ec2,stroke:#333,stroke-width:2px,color:#fff
+    classDef done fill:#008f7a,stroke:#333,stroke-width:2px,color:#fff
 
-    A[🚀 انطلاق المشروع - Sprint 1]:::main --> B{توزيع الفرق للعمل بالتوازي}:::main
-
-    subgraph Backend [⚙️ فريق الواجهة الخلفية - Node.js x2]
-        N1[تأسيس قاعدة البيانات]:::backend
-        N2[بناء APIs للحسابات الأربعة]:::backend
-        N1 --> N2
+    %% العقد الأساسية
+    Start([🚀 بداية الدورة: تحديد المهام]) ::: planning
+    
+    subgraph GitHub_Project [📋 إدارة المشروع - GitHub Projects]
+        direction LR
+        Backlog(Backlog) --> Sprint(To Do) --> InProgress(In Progress)
     end
 
-    subgraph Web [💻 فريق الويب - React.js x1]
-        R1[هيكلة لوحة تحكم الإدارة]:::frontend
+    subgraph Development_Team [💻 فريق التطوير - التنفيذ المتوازي]
+        direction TB
+        Node[⚙️ 2x Node.js<br>بناء واجهات التخاطب API<br>قواعد البيانات والمنطق] ::: backend
+        React[🖥️ 1x React.js<br>لوحات تحكم الإدارة<br>والمدير العام] ::: frontend
+        Flutter[📱 3x Flutter<br>تطبيقات الطلاب، أولياء الأمور<br>والمعلمات] ::: frontend
     end
 
-    subgraph Mobile [📱 فريق الجوال - Flutter x3]
-        F1[واجهات المعلمة]:::mobile
-        F2[واجهات الطالب]:::mobile
-        F3[واجهات ولي الأمر]:::mobile
+    subgraph Review_Testing [🔍 المراجعة والدمج - GitHub PR]
+        direction TB
+        PR(إنشاء Pull Request) ::: review
+        CodeReview(مراجعة الكود من الفريق) ::: review
+        Merge(دمج الكود - Merge to Main) ::: review
     end
 
-    subgraph DevOps [☁️ البنية التحتية - DevOps x1]
-        D1[تجهيز بيئة التطوير CI/CD]:::devops
+    subgraph DevOps_Pipeline [🛠️ مسار التشغيل الآلي - 1x DevOps]
+        direction TB
+        CI(GitHub Actions<br>فحص واختبار أوتوماتيكي) ::: devops
+        CD(رفع التحديثات للسيرفر<br>Staging / Production) ::: devops
     end
+    
+    End([✅ اكتمال المهمة ووصولها للمستخدم]) ::: done
 
-    B --> Backend
-    B --> Web
-    B --> Mobile
-    B --> DevOps
-
-    N2 -.->|اعتمادية البيانات| R1
-    N2 -.->|اعتمادية البيانات| F1
-    N2 -.->|اعتمادية البيانات| F2
-    N2 -.->|اعتمادية البيانات| F3
+    %% التوصيلات (المسار)
+    Start ==> GitHub_Project
+    InProgress ==> Development_Team
+    
+    Node -.-> |تجهيز الـ API| Flutter & React
+    
+    Development_Team ==> PR
+    PR ==> CodeReview
+    CodeReview ==> |موافقة| Merge
+    CodeReview -.-> |تعديلات مطلوبة| Development_Team
+    
+    Merge ==> CI
+    CI ==> CD
+    CD ==> End
 ```
