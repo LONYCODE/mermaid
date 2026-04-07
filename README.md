@@ -104,70 +104,73 @@ flowchart TD
 ```
 ```mermaid
 flowchart TD
-    classDef org fill:#f3e5f5,stroke:#8e24aa,stroke-width:3px,color:#000,font-weight:bold;
-    classDef roles fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000;
-    classDef repos fill:#e1f5fe,stroke:#03a9f4,stroke-width:2px,color:#000;
-    classDef gitflow fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#000;
-    classDef action fill:#fff,stroke:#333,stroke-width:1px,color:#000,stroke-dasharray: 5 5;
-    classDef highlight fill:#ffeb3b,stroke:#fbc02d,stroke-width:2px,color:#000;
+    classDef org fill:#f3e5f5,stroke:#8e24aa,stroke-width:3px,color:#000,font-weight:bold;
+    classDef roles fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000;
+    classDef repos fill:#e1f5fe,stroke:#03a9f4,stroke-width:2px,color:#000;
+    classDef gitflow fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#000;
+    classDef action fill:#fff,stroke:#333,stroke-width:1px,color:#000,stroke-dasharray: 5 5;
+    classDef highlight fill:#ffeb3b,stroke:#fbc02d,stroke-width:2px,color:#000;
 
-    subgraph OrgLevel [1. مستوى المنظمة - GitHub Organization]
-        direction TB
-        Org[🏢 منظمة المشروع الإدارية التي تجمع كل المستودعات والفريق ولوحة المهام]:::org
-        
-        subgraph RolesAccess [نظام الصلاحيات والوصول - Access Control]
-            direction LR
-            flutter team[عمر عبد ربه \n سارة صديقة \n محمد الحموي]:::roles
-            DevOps[🛠️ مطور DevOps\n- صلاحيات Admin على المستودعات\n- مسؤول عن CI/CD\n- مسؤول الحماية]:::roles
-            Devs[💻 المطورون 'Frontend, Backend, Mobile'\n- صلاحيات Write فقط على مستودعاتهم\n- لا يمكنهم الحذف أو الدمج المباشر للمين]:::roles
-            PM --- DevOps --- Devs
-        end
-        Org --> RolesAccess
-    end
+    subgraph OrgLevel [1. مستوى المنظمة - GitHub Organization]
+        direction TB
+        Org["منظمة المشروع الإدارية التي تجمع المستودعات و الفريق و لوحة المهام"]:::org
+        
+        subgraph RolesAccess [هيكل الفريق]
+            direction LR
+            PM["مدير المشروع : محمد\nحل المشاكل التي تواجه كل مطور و تسهيل سير العمل بشكل سلس"]:::roles
+            DevOps["مطور devops : عمر\nمسؤول عن عملية CI / CD أي تكامل عملية التطوير مع عملية النشر و الرفع على السيرفرات & مسؤول عن الحماية"]:::roles
+            Backend["فريق back-end / node.js :\nمعتز\nلودي\nتطوير API's & databases"]:::roles
+            Flutter["فريق front-end / flutter\nمحمد\nعمر\nسارة\nتطوير الواجهات الأمامية android & ios"]:::roles
+            Web["فريق web\nفيصل\nتطوير الواجهات الأمامية web & dashboard"]:::roles
+            
+            PM --- DevOps --- Backend --- Flutter --- Web
+        end
+        Org --> RolesAccess
+    end
 
-    subgraph ReposLevel [2. مستوى المستودعات - Polyrepo Architecture]
-        direction LR
-        R1[📦 Backend Repo\n- Node.js Team]:::repos
-        R2[📦 Web Admin Repo\n- React Team]:::repos
-        R3[📦 Mobile Repos\n- Flutter Team x3]:::repos
-    end
-    
-    RolesAccess -->|يمنح الوصول إلى| ReposLevel
+    subgraph ReposLevel [2. مستوى المستودعات - Polyrepo Architecture]
+        direction LR
+        R1[📦 Backend Repo\n- Node.js Team]:::repos
+        R2[📦 Web Admin Repo\n- React Team]:::repos
+        R3[📦 Mobile Repos\n- Flutter Team x3]:::repos
+    end
+    
+    RolesAccess -->|يمنح الوصول إلى| ReposLevel
 
-    subgraph GitWorkflow [3. دورة حياة الكود اليومية - Strict Git Flow]
-        direction TB
-        
-        MainBranch((🌳 Main Branch\n فرع الإنتاج المستقر\n لا يُمس أبداً من المطورين)):::highlight
-        DevBranch((🌿 Develop Branch\n فرع الاختبار والتجميع\n الكود المبدئي المدمج)):::gitflow
-        
-        MainBranch -->|استنساخ لبدء المشروع| DevBranch
-        
-        subgraph DeveloperDaily [عمل المطور اليومي]
-            direction TB
-            Task[📋 سحب مهمة من لوحة GitHub Projects]:::action
-            CreateBranch[🔀 إنشاء فرع جديد للمهمة\n مثال: feature/login-screen]:::action
-            Code[💻 كتابة الكود محلياً وعمل Commits\n برسائل واضحة ومحددة]:::action
-            Push[☁️ رفع الفرع إلى مستودع GitHub]:::action
-            
-            Task --> CreateBranch --> Code --> Push
-        end
-        
-        DevBranch -->|تفرع لمهمة جديدة| Task
-        
-        subgraph PullRequestCycle [4. دورة المراجعة - Pull Request Process]
-            direction TB
-            OpenPR[📝 فتح Pull Request من فرع المهمة\n إلى فرع Develop]:::action
-            Review[🔍 مراجعة الكود Code Review\n- يقوم مطور آخر أو أنت بمراجعة الكود\n- يمنع دمج الكود دون موافقة Approve]:::action
-            CI[⚙️ الفحص الآلي CI/CD\n- مطور الـ DevOps يبرمج فحصاً آلياً\n للتأكد من عدم وجود أخطاء]:::action
-            Merge[✅ دمج الكود Merge\n- بعد الموافقة يدمج الكود في Develop]:::highlight
-            DeleteBranch[🗑️ حذف فرع المهمة\n للحفاظ على نظافة المستودع]:::action
-            
-            OpenPR --> Review --> CI --> Merge --> DeleteBranch
-        end
-        
-        Push --> OpenPR
-        Merge -->|تحديث فرع التجميع| DevBranch
-    end
-    
-    ReposLevel --> GitWorkflow
+    subgraph GitWorkflow [3. دورة حياة الكود اليومية - Strict Git Flow]
+        direction TB
+        
+        MainBranch((🌳 Main Branch\n فرع الإنتاج المستقر\n لا يُمس أبداً من المطورين)):::highlight
+        DevBranch((🌿 Develop Branch\n فرع الاختبار والتجميع\n الكود المبدئي المدمج)):::gitflow
+        
+        MainBranch -->|استنساخ لبدء المشروع| DevBranch
+        
+        subgraph DeveloperDaily [عمل المطور اليومي]
+            direction TB
+            Task[📋 سحب مهمة من لوحة GitHub Projects]:::action
+            CreateBranch[🔀 إنشاء فرع جديد للمهمة\n مثال: feature/login-screen]:::action
+            Code[💻 كتابة الكود محلياً وعمل Commits\n برسائل واضحة ومحددة]:::action
+            Push[☁️ رفع الفرع إلى مستودع GitHub]:::action
+            
+            Task --> CreateBranch --> Code --> Push
+        end
+        
+        DevBranch -->|تفرع لمهمة جديدة| Task
+        
+        subgraph PullRequestCycle [4. دورة المراجعة - Pull Request Process]
+            direction TB
+            OpenPR[📝 فتح Pull Request من فرع المهمة\n إلى فرع Develop]:::action
+            Review[🔍 مراجعة الكود Code Review\n- يقوم مطور آخر أو أنت بمراجعة الكود\n- يمنع دمج الكود دون موافقة Approve]:::action
+            CI[⚙️ الفحص الآلي CI/CD\n- مطور الـ DevOps يبرمج فحصاً آلياً\n للتأكد من عدم وجود أخطاء]:::action
+            Merge[✅ دمج الكود Merge\n- بعد الموافقة يدمج الكود في Develop]:::highlight
+            DeleteBranch[🗑️ حذف فرع المهمة\n للحفاظ على نظافة المستودع]:::action
+            
+            OpenPR --> Review --> CI --> Merge --> DeleteBranch
+        end
+        
+        Push --> OpenPR
+        Merge -->|تحديث فرع التجميع| DevBranch
+    end
+    
+    ReposLevel --> GitWorkflow
 ```
