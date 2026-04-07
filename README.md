@@ -1,5 +1,5 @@
 # mermaid
-<pre>
+<pre>mermaid
 graph TD
     subgraph Team [فريق العمل - 7 مطورين]
         DevOps[مطور DevOps - 1]
