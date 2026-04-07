@@ -103,25 +103,6 @@ flowchart TD
     Epic1 --> Sprint1
 ```
 ```mermaid
-sequenceDiagram
-    autonumber
-    actor PM as مدير المشروع (أنت)
-    participant Board as لوحة المهام (GitHub Project)
-    actor Dev as المطور (فريقك)
-    participant Repo as المستودع (GitHub Repo)
-    
-    PM->>Board: كتابة المهمة (Issue) في الـ Backlog
-    PM->>Board: تخطيط السباق (Sprint) ونقل المهمة إلى To Do
-    Dev->>Board: سحب المهمة إلى In Progress وتعيينها لنفسه
-    Dev->>Repo: إنشاء فرع جديد للكود (Feature Branch)
-    Dev->>Repo: كتابة الكود ورفعه (Commit & Push)
-    Dev->>Repo: فتح طلب دمج (Pull Request - PR)
-    Repo-->>Board: النظام ينقل المهمة تلقائياً إلى In Review
-    PM->>Repo: مراجعة الـ PR (أو توكيل مطور آخر للمراجعة)
-    PM->>Repo: الموافقة على الكود ودمجه (Merge to Main)
-    Repo-->>Board: النظام ينقل المهمة تلقائياً إلى Done
-```
-```mermaid
 flowchart TD
     classDef org fill:#f3e5f5,stroke:#8e24aa,stroke-width:3px,color:#000,font-weight:bold;
     classDef roles fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000;
@@ -132,11 +113,11 @@ flowchart TD
 
     subgraph OrgLevel [1. مستوى المنظمة - GitHub Organization]
         direction TB
-        Org[🏢 منظمة المشروع 'School Management System'\n المظلة الإدارية التي تجمع كل المستودعات والفريق ولوحة المهام]:::org
+        Org[🏢 منظمة المشروع الإدارية التي تجمع كل المستودعات والفريق ولوحة المهام]:::org
         
         subgraph RolesAccess [نظام الصلاحيات والوصول - Access Control]
             direction LR
-            PM[👨‍💼 مدير المشروع 'أنت'\n- صلاحيات كاملة Owner\n- يدير لوحة المهام\n- يراجع التقدم]:::roles
+            flutter team[عمر عبد ربه \n سارة صديقة \n محمد الحموي]:::roles
             DevOps[🛠️ مطور DevOps\n- صلاحيات Admin على المستودعات\n- مسؤول عن CI/CD\n- مسؤول الحماية]:::roles
             Devs[💻 المطورون 'Frontend, Backend, Mobile'\n- صلاحيات Write فقط على مستودعاتهم\n- لا يمكنهم الحذف أو الدمج المباشر للمين]:::roles
             PM --- DevOps --- Devs
