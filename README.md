@@ -121,4 +121,49 @@ sequenceDiagram
     PM->>Repo: الموافقة على الكود ودمجه (Merge to Main)
     Repo-->>Board: النظام ينقل المهمة تلقائياً إلى Done
 ```
+```mermaid
+graph TD
+    %% تعريف الألوان والهيكل المرئي
+    classDef pm fill:#e53935,stroke:#b71c1c,stroke-width:3px,color:#fff;
+    classDef org fill:#3949ab,stroke:#1a237e,stroke-width:3px,color:#fff;
+    classDef team fill:#43a047,stroke:#1b5e20,stroke-width:2px,color:#fff;
+    classDef repo fill:#039be5,stroke:#01579b,stroke-width:2px,color:#fff;
+    classDef board fill:#ffb300,stroke:#ff6f00,stroke-width:3px,color:#000;
+
+    PM["👨‍💼 مدير المشروع (أنت) <br> الإدارة العليا والتخطيط"]:::pm
+    Org["🏢 GitHub Organization <br> المساحة المركزية للمشروع"]:::org
+    Board["📋 GitHub Project V2 <br> لوحة مهام الأجايل (Agile Board)"]:::board
+
+    PM == يدير ويراقب ==> Org
+    PM == يكتب المهام ويتابع الإنجاز ==> Board
+    Org -- يمتلك --> Board
+
+    subgraph Teams [التنظيم الداخلي للفرق - GitHub Teams]
+        direction LR
+        T1["📱 فريق الهاتف (Mobile) <br> 3 مطورين Flutter"]:::team
+        T2["🌐 فريق الخلفية (Backend) <br> 2 مطورين Node.js"]:::team
+        T3["💻 فريق الويب (Frontend) <br> مطور 1 React.js"]:::team
+        T4["⚙️ فريق العمليات (DevOps) <br> مطور 1"]:::team
+    end
+
+    Org -- يضم --> Teams
+
+    subgraph Repos [مستودعات الأكواد المعزولة - Polyrepo]
+        direction LR
+        R1["📦 App_Teacher"]:::repo
+        R2["📦 App_Student"]:::repo
+        R3["📦 App_Parent"]:::repo
+        R4["📦 API_Backend"]:::repo
+        R5["📦 Web_Admin"]:::repo
+    end
+
+    %% ربط الصلاحيات
+    T1 -. "صلاحية كتابة وقراءة" .-> R1 & R2 & R3
+    T2 -. "صلاحية كتابة وقراءة" .-> R4
+    T3 -. "صلاحية كتابة وقراءة" .-> R5
+    T4 -. "صلاحية إدارية للـ CI/CD" .-> Repos
+
+    %% ربط المستودعات بلوحة المهام
+    Repos === "تغذي اللوحة بحالة الأكواد" ===> Board
+    ```
 ذ
