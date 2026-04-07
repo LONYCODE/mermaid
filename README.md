@@ -1,5 +1,6 @@
 
 ```mermaid
+
 flowchart TD
     classDef devops fill:#f9d0c4,stroke:#333,stroke-width:2px,color:#000;
     classDef backend fill:#d4e157,stroke:#333,stroke-width:2px,color:#000;
@@ -35,8 +36,6 @@ flowchart TD
         B1 -.->|3. عقود API وهمية للعمل المتوازي| D2
         B1 -.->|4. عقود API وهمية للعمل المتوازي| D3
     end
-```
-```mermaid
 flowchart TD
     classDef org fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#000;
     classDef board fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:#000;
