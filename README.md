@@ -1,6 +1,6 @@
 ```mermaid
 flowchart TB
-    %% تعريف الألوان والاستايلات
+ 
     classDef planning fill:#f9f871,stroke:#333,stroke-width:2px,color:#333
     classDef backend fill:#ffc75f,stroke:#333,stroke-width:2px,color:#333
     classDef frontend fill:#ff9671,stroke:#333,stroke-width:2px,color:#333
@@ -8,7 +8,7 @@ flowchart TB
     classDef review fill:#845ec2,stroke:#333,stroke-width:2px,color:#fff
     classDef done fill:#008f7a,stroke:#333,stroke-width:2px,color:#fff
 
-    %% العقد الأساسية
+    
     Start([🚀 بداية الدورة: تحديد المهام]) ::: planning
     
     subgraph GitHub_Project [📋 إدارة المشروع - GitHub Projects]
@@ -38,7 +38,6 @@ flowchart TB
     
     End([✅ اكتمال المهمة ووصولها للمستخدم]) ::: done
 
-    %% التوصيلات (المسار)
     Start ==> GitHub_Project
     InProgress ==> Development_Team
     
