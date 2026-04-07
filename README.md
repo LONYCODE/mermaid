@@ -1,5 +1,4 @@
-# mermaid
-<pre>mermaid
+```mermaid
 graph TD
     subgraph Team [فريق العمل - 7 مطورين]
         DevOps[مطور DevOps - 1]
@@ -33,4 +32,4 @@ graph TD
     Sprint --> InProgress
     InProgress --> Review
     Review --> Done
-<pre/>
+```
