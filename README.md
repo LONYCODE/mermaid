@@ -233,3 +233,48 @@ flowchart TD
         DeveloperInteraction -.-> KanbanColumns
     end
 ```
+```mermaid
+flowchart TD
+    classDef sprint fill:#e3f2fd,stroke:#1e88e5,stroke-width:3px,color:#000,font-weight:bold;
+    classDef meeting fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:#000;
+    classDef pmRole fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#000;
+    classDef daily fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#000;
+    classDef action fill:#fff,stroke:#333,stroke-width:1px,color:#000;
+    classDef danger fill:#ffcdd2,stroke:#d32f2f,stroke-width:2px,color:#000;
+
+    subgraph SprintCycle [1. دورة السباق الأساسية - Sprint Cycle 'أسبوعين']
+        direction LR
+        Plan[🎯 تخطيط السباق\n Sprint Planning\n ساعتان - بداية السباق]:::meeting
+        Execute[💻 التنفيذ\n Sprint Execution\n عمل برمجي مستمر]:::sprint
+        Review[🔍 المراجعة\n Sprint Review / Demo\n ساعة - استعراض ما تم إنجازه]:::meeting
+        Retro[🔄 الاسترجاع\n Sprint Retrospective\n ساعة - كيف نتحسن؟]:::meeting
+
+        Plan --> Execute --> Review --> Retro
+        Retro -->|يبدأ سباق جديد| Plan
+    end
+
+    subgraph DailyRoutine [2. المزامنة اليومية - Daily Standup]
+        direction TB
+        Standup[⏱️ الاجتماع الصباحي\n 15 دقيقة كحد أقصى للـ 7 أشخاص\n وقوفاً أو مكالمة سريعة]:::daily
+        
+        Q1[✅ ماذا أنجزت البارحة؟]:::action
+        Q2[🎯 ماذا ستنجز اليوم؟]:::action
+        Q3[🚧 هل هناك أي عوائق 'Blockers'؟]:::danger
+
+        Standup --> Q1 & Q2 & Q3
+    end
+
+    Execute -.->|يتخللها يومياً| DailyRoutine
+
+    subgraph PMDuties [3. دورك كمدير مشروع 'المهام الخفية']
+        direction TB
+        Unblock[🛡️ إزالة العوائق - Unblocker\n مثال: مطور Flutter متوقف لأن\n الـ API من Node.js لم يجهز]:::pmRole
+        Monitor[📊 المراقبة الصامتة\n فحص لوحة GitHub Projects\n التأكد من سير الأتمتة والمهام]:::pmRole
+        Grooming[📝 تحضير المهام - Backlog Grooming\n تفريغ ملف الـ PDF لمهام السباق القادم\n حتى لا يتوقف الفريق لاحقاً]:::pmRole
+
+        Monitor --> Unblock
+        Unblock --> Grooming
+    end
+
+    Q3 -.->|تنتقل المسؤولية إليك فوراً| Unblock
+```
