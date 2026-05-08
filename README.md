@@ -158,3 +158,49 @@ flowchart TD
         DeveloperInteraction -.-> KanbanColumns
     end
 ```
+```mermaid
+graph TD
+    MVP["🚀 الإصدار الأولي (MVP) <br> الأساس الأكاديمي والعمليات"]:::mvp
+
+    %% Main Branches
+    DevOps["⚙️ البنية التحتية (Node.js & DevOps)"]:::backend
+    Dashboard["💻 لوحة تحكم الإدارة (React.js)"]:::frontend
+    Mobile["📱 تطبيق الموبايل (Flutter)"]:::mobile
+
+    MVP --> DevOps
+    MVP --> Dashboard
+    MVP --> Mobile
+
+    %% DevOps
+    DevOps --> Auth["🔒 نظام المصادقة والصلاحيات"]
+    DevOps --> API["🏗️ هيكلة المدرسة (API)"]
+
+    %% Dashboard
+    Dashboard --> DailyData["📝 إدخال البيانات اليومية"]
+    Dashboard --> Attendance["📊 لوحة الغياب والمراقبة"]
+    Dashboard --> Announcements["📢 نظام الإعلانات والتعاميم"]
+
+    %% Mobile
+    Mobile --> Teacher["👩‍🏫 واجهة المعلمة"]
+    Mobile --> Student["👨‍🎓 واجهة الطالب"]
+    Mobile --> Parent["👪 واجهة ولي الأمر"]
+
+    %% Teacher
+    Teacher --> Grades["إدخال المحصلات والعلامات"]
+
+    %% Student
+    Student --> StudentGrades["سجل التقييم والغياب"]
+    Student --> StudentTasks["صندوق المهام والواجبات"]
+    Student --> StudentAnnounce["صندوق التعاميم المدرسية"]
+
+    %% Parent
+    Parent --> ParentTracking["لوحة المتابعة الشاملة"]
+    Parent --> ParentTasks["متابعة الواجبات والتحضير"]
+    Parent --> ParentAnnounce["صندوق الإشعارات"]
+
+    %% Styling
+    classDef mvp fill:#f0f4f8,stroke:#2c3e50,stroke-width:4px,color:#2c3e50,font-weight:bold,font-size:18px;
+    classDef backend fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000,font-weight:bold;
+    classDef frontend fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000,font-weight:bold;
+    classDef mobile fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000,font-weight:bold;
+```
